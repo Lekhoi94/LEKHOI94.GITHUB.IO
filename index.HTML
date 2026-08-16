@@ -1,0 +1,1868 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Nạp Thẻ SMS</title>
+
+<link rel="manifest" href="manifest.json">
+<link rel="icon" href="icon-192.png">
+<link rel="apple-touch-icon" href="icon-192.png">
+
+<meta name="theme-color" content="#121212">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Nạp Thẻ">
+
+<style>
+
+/* =====================================================
+   RESET
+===================================================== */
+
+*{
+    box-sizing:border-box;
+}
+
+/* =====================================================
+   BODY
+===================================================== */
+
+body{
+    font-family:Arial,sans-serif;
+    background:
+        radial-gradient(
+            circle at top,
+            #263238 0%,
+            #121212 45%,
+            #090909 100%
+        );
+    color:#fff;
+    text-align:center;
+    padding:15px;
+    margin:0;
+    min-height:100vh;
+}
+
+/* =====================================================
+   TIÊU ĐỀ
+===================================================== */
+
+.main-title{
+    margin:10px 0 25px;
+    font-size:27px;
+    font-weight:bold;
+    color:#00e676;
+    text-shadow:0 0 12px rgba(0,230,118,.35);
+}
+
+.network-title{
+    margin:25px 0 15px;
+    font-size:22px;
+    font-weight:bold;
+}
+
+/* =====================================================
+   Ô NHẬP MÃ THẺ
+===================================================== */
+
+.ussd-box{
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    flex-wrap:wrap;
+    gap:5px;
+    margin:20px auto 25px;
+    font-size:28px;
+    font-weight:bold;
+}
+
+.ussd-box span{
+    color:#00e676;
+}
+
+#mathe{
+    width:280px;
+    max-width:72vw;
+    padding:14px;
+    font-size:21px;
+    text-align:center;
+    border:2px solid #333;
+    border-radius:12px;
+    outline:none;
+    background:#fff;
+    color:#000;
+    transition:.2s;
+}
+
+#mathe:focus{
+    border-color:#00e676;
+    box-shadow:0 0 14px rgba(0,230,118,.4);
+}
+
+/* =====================================================
+   BUTTON CHUNG
+===================================================== */
+
+button{
+    min-width:135px;
+    padding:13px 15px;
+    font-size:15px;
+    font-weight:bold;
+    border:none;
+    border-radius:12px;
+    cursor:pointer;
+    color:#fff;
+    margin:4px;
+    transition:
+        transform .15s,
+        box-shadow .15s,
+        filter .15s;
+    box-shadow:
+        0 4px 10px rgba(0,0,0,.4);
+}
+
+button:hover{
+    filter:brightness(1.12);
+    transform:translateY(-2px);
+    box-shadow:
+        0 7px 18px rgba(0,0,0,.55);
+}
+
+button:active{
+    transform:scale(.95);
+}
+
+/* =====================================================
+   KHU VỰC BUTTON
+===================================================== */
+
+.button-area{
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    flex-wrap:wrap;
+    gap:7px;
+    max-width:950px;
+    margin:0 auto 20px;
+}
+
+/* =====================================================
+   VIETTEL
+===================================================== */
+
+.viettel-title{
+    color:#00e676;
+}
+
+.viettel button{
+    background:linear-gradient(
+        135deg,
+        #00c853,
+        #087f23
+    );
+}
+
+.viettel .nap{
+    background:linear-gradient(
+        135deg,
+        #00e676,
+        #00a152
+    );
+}
+
+.viettel .tk{
+    background:linear-gradient(
+        135deg,
+        #ffb300,
+        #ef6c00
+    );
+}
+
+.viettel .data{
+    background:linear-gradient(
+        135deg,
+        #00bfa5,
+        #00796b
+    );
+}
+
+.viettel .cuoc{
+    background:linear-gradient(
+        135deg,
+        #795548,
+        #4e342e
+    );
+}
+
+.viettel .gtgt{
+    background:linear-gradient(
+        135deg,
+        #ab47bc,
+        #6a1b9a
+    );
+}
+
+.viettel .xn{
+    background:linear-gradient(
+        135deg,
+        #ef5350,
+        #c62828
+    );
+}
+
+.viettel .cccd{
+    background:linear-gradient(
+        135deg,
+        #2196f3,
+        #1565c0
+    );
+}
+
+.viettel .hotline{
+    background:linear-gradient(
+        135deg,
+        #607d8b,
+        #37474f
+    );
+}
+
+/* =====================================================
+   VINAPHONE
+===================================================== */
+
+.vina-title{
+    color:#42a5f5;
+}
+
+.vinaphone button{
+    background:linear-gradient(
+        135deg,
+        #1976d2,
+        #0d47a1
+    );
+}
+
+.vinaphone .nap{
+    background:linear-gradient(
+        135deg,
+        #42a5f5,
+        #1565c0
+    );
+}
+
+.vinaphone .tk{
+    background:linear-gradient(
+        135deg,
+        #2196f3,
+        #0d47a1
+    );
+}
+
+.vinaphone .data{
+    background:linear-gradient(
+        135deg,
+        #00bcd4,
+        #00838f
+    );
+}
+
+.vinaphone .km{
+    background:linear-gradient(
+        135deg,
+        #ff9800,
+        #ef6c00
+    );
+}
+
+.vinaphone .goi{
+    background:linear-gradient(
+        135deg,
+        #9c27b0,
+        #6a1b9a
+    );
+}
+
+.vinaphone .cccd{
+    background:linear-gradient(
+        135deg,
+        #008cff,
+        #005cb2
+    );
+}
+
+.vinaphone .hotline{
+    background:linear-gradient(
+        135deg,
+        #607d8b,
+        #37474f
+    );
+}
+
+/* =====================================================
+   MOBIFONE
+===================================================== */
+
+.mobi-title{
+    color:#ffd740;
+}
+
+.mobifone button{
+    background:linear-gradient(
+        135deg,
+        #fbc02d,
+        #f57f17
+    );
+    color:#111;
+}
+
+.mobifone .nap{
+    background:linear-gradient(
+        135deg,
+        #ffca28,
+        #ff8f00
+    );
+}
+
+.mobifone .tk{
+    background:linear-gradient(
+        135deg,
+        #ffb300,
+        #fb8c00
+    );
+}
+
+.mobifone .data{
+    background:linear-gradient(
+        135deg,
+        #00bfa5,
+        #00897b
+    );
+    color:#fff;
+}
+
+.mobifone .dv{
+    background:linear-gradient(
+        135deg,
+        #8d6e63,
+        #5d4037
+    );
+    color:#fff;
+}
+
+.mobifone .km{
+    background:linear-gradient(
+        135deg,
+        #ec407a,
+        #ad1457
+    );
+    color:#fff;
+}
+
+.mobifone .cccd{
+    background:linear-gradient(
+        135deg,
+        #2196f3,
+        #1565c0
+    );
+    color:#fff;
+}
+
+.mobifone .hotline{
+    background:linear-gradient(
+        135deg,
+        #607d8b,
+        #37474f
+    );
+    color:#fff;
+}
+
+/* =====================================================
+   VIETNAMOBILE
+===================================================== */
+
+.vnmb-title{
+    color:#ff66cc;
+}
+
+.vietnamobile button{
+    background:linear-gradient(
+        135deg,
+        #ec407a,
+        #ad1457
+    );
+}
+
+.vietnamobile .tk{
+    background:linear-gradient(
+        135deg,
+        #ff4081,
+        #c2185b
+    );
+}
+
+.vietnamobile .km{
+    background:linear-gradient(
+        135deg,
+        #ab47bc,
+        #7b1fa2
+    );
+}
+
+.vietnamobile .dv{
+    background:linear-gradient(
+        135deg,
+        #7e57c2,
+        #4527a0
+    );
+}
+
+.vietnamobile .hotline{
+    background:linear-gradient(
+        135deg,
+        #607d8b,
+        #37474f
+    );
+}
+
+/* =====================================================
+   VNSKY
+===================================================== */
+
+.vnsky-title{
+    color:#29b6f6;
+}
+
+.vnsky button{
+    background:linear-gradient(
+        135deg,
+        #03a9f4,
+        #0277bd
+    );
+}
+
+.vnsky .tk{
+    background:linear-gradient(
+        135deg,
+        #42a5f5,
+        #1565c0
+    );
+}
+
+.vnsky .sms{
+    background:linear-gradient(
+        135deg,
+        #00bcd4,
+        #00838f
+    );
+}
+
+.vnsky .data{
+    background:linear-gradient(
+        135deg,
+        #00acc1,
+        #006064
+    );
+}
+
+.vnsky .goi{
+    background:linear-gradient(
+        135deg,
+        #7e57c2,
+        #4527a0
+    );
+}
+
+.vnsky .app{
+    background:linear-gradient(
+        135deg,
+        #2196f3,
+        #0d47a1
+    );
+}
+
+/* =====================================================
+   WINTEL
+===================================================== */
+
+.wintel-title{
+    color:#8bc34a;
+}
+
+.wintel button{
+    background:linear-gradient(
+        135deg,
+        #8bc34a,
+        #558b2f
+    );
+}
+
+.wintel .tk{
+    background:linear-gradient(
+        135deg,
+        #9ccc65,
+        #689f38
+    );
+}
+
+.wintel .km{
+    background:linear-gradient(
+        135deg,
+        #66bb6a,
+        #2e7d32
+    );
+}
+
+.wintel .app{
+    background:linear-gradient(
+        135deg,
+        #43a047,
+        #1b5e20
+    );
+}
+
+.wintel .hotline{
+    background:linear-gradient(
+        135deg,
+        #607d8b,
+        #37474f
+    );
+}
+
+/* =====================================================
+   FPT
+===================================================== */
+
+.fpt-title{
+    color:#ff9800;
+}
+
+.fpt button{
+    background:linear-gradient(
+        135deg,
+        #ff9800,
+        #ef6c00
+    );
+}
+
+.fpt .internet{
+    background:linear-gradient(
+        135deg,
+        #2196f3,
+        #1565c0
+    );
+}
+
+/* =====================================================
+   ITEL
+===================================================== */
+
+.itel-title{
+    color:#00e5ff;
+}
+
+.itel button{
+    background:linear-gradient(
+        135deg,
+        #00bcd4,
+        #00838f
+    );
+}
+
+.itel .tk{
+    background:linear-gradient(
+        135deg,
+        #26c6da,
+        #00838f
+    );
+}
+
+.itel .info{
+    background:linear-gradient(
+        135deg,
+        #42a5f5,
+        #1565c0
+    );
+}
+
+.itel .sms{
+    background:linear-gradient(
+        135deg,
+        #ab47bc,
+        #6a1b9a
+    );
+}
+
+.itel .data{
+    background:linear-gradient(
+        135deg,
+        #00acc1,
+        #006064
+    );
+}
+
+.itel .ck{
+    background:linear-gradient(
+        135deg,
+        #ff9800,
+        #ef6c00
+    );
+}
+
+.itel .app{
+    background:linear-gradient(
+        135deg,
+        #2196f3,
+        #0d47a1
+    );
+}
+
+/* =====================================================
+   LOCAL
+===================================================== */
+
+.local-title{
+    color:#90a4ae;
+}
+
+.local button{
+    background:linear-gradient(
+        135deg,
+        #607d8b,
+        #37474f
+    );
+}
+
+/* =====================================================
+   HR
+===================================================== */
+
+hr{
+    border:0;
+    height:1px;
+    background:linear-gradient(
+        90deg,
+        transparent,
+        #444,
+        transparent
+    );
+    max-width:950px;
+    margin:28px auto;
+}
+
+/* =====================================================
+   CCCD
+===================================================== */
+
+#cccdBox{
+    display:none;
+    margin:25px auto;
+    padding:22px;
+    max-width:420px;
+    background:
+        linear-gradient(
+            145deg,
+            #242424,
+            #151515
+        );
+    border:1px solid #333;
+    border-radius:18px;
+    box-shadow:
+        0 10px 30px rgba(0,0,0,.6),
+        0 0 20px rgba(33,150,243,.15);
+}
+
+#cccdBox h3{
+    margin-top:0;
+    color:#42a5f5;
+}
+
+#cccd{
+    width:100%;
+    max-width:320px;
+}
+
+.btnGuiCCCD{
+    background:linear-gradient(
+        135deg,
+        #2196f3,
+        #1565c0
+    );
+}
+
+.btnHuy{
+    background:linear-gradient(
+        135deg,
+        #757575,
+        #424242
+    );
+}
+
+/* =====================================================
+   PREVIEW
+===================================================== */
+
+#preview{
+    margin:25px auto;
+    padding:15px;
+    max-width:700px;
+    min-height:10px;
+    font-size:17px;
+    line-height:1.8;
+    color:#00ff99;
+    background:#181818;
+    border-radius:12px;
+}
+
+/* =====================================================
+   CÀI APP
+===================================================== */
+
+#installBtn{
+    display:none;
+    margin-top:20px;
+    background:linear-gradient(
+        135deg,
+        #2196f3,
+        #1565c0
+    );
+}
+
+/* =====================================================
+   MOBILE
+===================================================== */
+
+@media(max-width:600px){
+
+    body{
+        padding:10px;
+    }
+
+    .main-title{
+        font-size:24px;
+    }
+
+    .network-title{
+        font-size:20px;
+    }
+
+    .ussd-box{
+        font-size:23px;
+    }
+
+    #mathe{
+        width:230px;
+        font-size:19px;
+    }
+
+    .button-area{
+        display:grid;
+        grid-template-columns:repeat(2,1fr);
+        gap:7px;
+        padding:0 4px;
+    }
+
+    button{
+        width:100%;
+        min-width:0;
+        margin:0;
+        padding:13px 6px;
+        font-size:14px;
+        border-radius:11px;
+    }
+
+}
+
+@media(max-width:360px){
+
+    button{
+        font-size:13px;
+        padding:12px 4px;
+    }
+
+}
+
+</style>
+</head>
+
+<body>
+
+<!-- =====================================================
+     TIÊU ĐỀ
+===================================================== -->
+
+<h1 class="main-title">
+    📱 NẠP THẺ SMS
+</h1>
+
+<!-- =====================================================
+     NHẬP MÃ THẺ
+===================================================== -->
+
+<div class="ussd-box">
+
+    <span>*100*</span>
+
+    <input
+        type="text"
+        id="mathe"
+        placeholder="Nhập mã thẻ"
+        autocomplete="off"
+        inputmode="numeric">
+
+    <span>#</span>
+
+</div>
+
+<!-- =====================================================
+     CCCD
+===================================================== -->
+
+<div id="cccdBox">
+
+    <h3>🔎 TRA CỨU CHÍNH CHỦ</h3>
+
+    <p>Nhập số CCCD:</p>
+
+    <input
+        type="text"
+        id="cccd"
+        placeholder="Nhập CCCD 12 số"
+        maxlength="12"
+        inputmode="numeric"
+        autocomplete="off">
+
+    <br><br>
+
+    <button
+        class="btnGuiCCCD"
+        onclick="guiCCCD()">
+        📩 Gửi tra cứu
+    </button>
+
+    <button
+        class="btnHuy"
+        onclick="dongCCCD()">
+        ❌ Hủy
+    </button>
+
+</div>
+
+<!-- =====================================================
+     VIETTEL
+===================================================== -->
+
+<h2 class="network-title viettel-title">
+    🟢 VIETTEL
+</h2>
+
+<div class="button-area viettel">
+
+    <button class="nap" onclick="guiSMS()">
+        💳 Nạp Thẻ
+    </button>
+
+    <button class="tk" onclick="traCuuTK()">
+        💰 TK 191
+    </button>
+
+    <button class="tk" onclick="vt101()">
+        💰 *101#
+    </button>
+
+    <button class="data" onclick="kiemTraData()">
+        📶 KTTK 191
+    </button>
+
+    <button class="data" onclick="vtData109()">
+        📶 Tra Cước 109
+    </button>
+
+    <button class="cuoc" onclick="kiemTraCuoc()">
+        📦 GC 195
+    </button>
+
+    <button class="cuoc" onclick="vtTC195()">
+        📋 TC 195
+    </button>
+
+    <button class="gtgt" onclick="traCuuGTGT()">
+        📊 TC 1228
+    </button>
+
+    <button class="xn" onclick="xacThucTB()">
+        🔐 XT 1414
+    </button>
+
+    <button class="cccd" onclick="moNhapCCCD()">
+        🔎 Chính Chủ
+    </button>
+
+    <button
+        class="hotline"
+        onclick="window.location.href='tel:18008098'">
+        ☎️ CSKH
+    </button>
+
+    <button
+        class="hotline"
+        onclick="window.location.href='tel:18008119'">
+        🌐 Internet
+    </button>
+
+</div>
+
+<hr>
+
+<!-- =====================================================
+     VINAPHONE
+===================================================== -->
+
+<h2 class="network-title vina-title">
+    🔵 VINAPHONE
+</h2>
+
+<div class="button-area vinaphone">
+
+    <button class="nap" onclick="vinaNapThe()">
+        💳 Nạp Thẻ
+    </button>
+
+    <button class="tk" onclick="vina101()">
+        💰 *101#
+    </button>
+
+    <button class="tk" onclick="vinaTK()">
+        📋 TK 123
+    </button>
+
+    <button class="data" onclick="vinaData()">
+        📶 DATA 888
+    </button>
+
+    <button class="km" onclick="vinaKM()">
+        🎁 Khuyến Mãi
+    </button>
+
+    <button class="goi" onclick="vinaGoi()">
+        📦 Gói Cước
+    </button>
+
+    <button class="cccd" onclick="vinaChinhChu()">
+        🔎 Chính Chủ
+    </button>
+
+    <button
+        class="hotline"
+        onclick="window.location.href='tel:9191'">
+        ☎️ 9191
+    </button>
+
+    <button
+        class="hotline"
+        onclick="window.location.href='tel:18001091'">
+        ☎️ CSKH
+    </button>
+
+    <button
+        class="hotline"
+        onclick="window.location.href='tel:18001166'">
+        🌐 Internet
+    </button>
+
+</div>
+
+<hr>
+
+<!-- =====================================================
+     MOBIFONE
+===================================================== -->
+
+<h2 class="network-title mobi-title">
+    🟡 MOBIFONE
+</h2>
+
+<div class="button-area mobifone">
+
+    <button class="nap" onclick="mobiNapThe()">
+        💳 Nạp Thẻ
+    </button>
+
+    <button class="tk" onclick="mobi101()">
+        💰 *101#
+    </button>
+
+    <button class="tk" onclick="mobi090()">
+        💰 *090#
+    </button>
+
+    <button class="tk" onclick="mobiTK()">
+        📋 KT 994
+    </button>
+
+    <button class="data" onclick="mobiData()">
+        📶 DATA 999
+    </button>
+
+    <button class="dv" onclick="mobiDV()">
+        📦 KT ALL
+    </button>
+
+    <button class="km" onclick="mobiKM()">
+        🎁 KM
+    </button>
+
+    <button class="cccd" onclick="mobiChinhChu()">
+        🔎 Chính Chủ
+    </button>
+
+    <button
+        class="hotline"
+        onclick="window.location.href='tel:9090'">
+        ☎️ 9090
+    </button>
+
+    <button
+        class="hotline"
+        onclick="window.location.href='tel:18001090'">
+        ☎️ CSKH
+    </button>
+
+</div>
+
+<hr>
+
+<!-- =====================================================
+     VIETNAMOBILE
+===================================================== -->
+
+<h2 class="network-title vnmb-title">
+    🟣 VIETNAMOBILE
+</h2>
+
+<div class="button-area vietnamobile">
+
+    <button class="tk" onclick="vnmb101()">
+        💰 *101#
+    </button>
+
+    <button class="km" onclick="vnmb102()">
+        🎁 *102#
+    </button>
+
+    <button class="dv" onclick="vnmb092()">
+        📦 *092#
+    </button>
+
+    <button
+        class="hotline"
+        onclick="window.location.href='tel:789'">
+        ☎️ 789
+    </button>
+
+</div>
+
+<hr>
+
+<!-- =====================================================
+     VNSKY
+===================================================== -->
+
+<h2 class="network-title vnsky-title">
+    🔷 VNSKY
+</h2>
+
+<div class="button-area vnsky">
+
+    <button class="tk" onclick="vnskyTK()">
+        💰 *101#
+    </button>
+
+    <button class="sms" onclick="vnskySMS()">
+        📩 KT 888
+    </button>
+
+    <button class="data" onclick="vnskyData()">
+        📶 TRACUU
+    </button>
+
+    <button class="goi" onclick="vnsky5G89()">
+        🚀 5G89
+    </button>
+
+    <button class="app" onclick="vnskyWeb()">
+        🌐 APP
+    </button>
+
+</div>
+
+<hr>
+
+<!-- =====================================================
+     WINTEL
+===================================================== -->
+
+<h2 class="network-title wintel-title">
+    🟢 WINTEL
+</h2>
+
+<div class="button-area wintel">
+
+    <button class="tk" onclick="wintelTK()">
+        💰 *101#
+    </button>
+
+    <button class="km" onclick="wintel102()">
+        🎁 *102#
+    </button>
+
+    <button class="app" onclick="wintelApp()">
+        📱 APP
+    </button>
+
+    <button
+        class="hotline"
+        onclick="window.location.href='tel:19002155'">
+        ☎️ 19002155
+    </button>
+
+</div>
+
+<hr>
+
+<!-- =====================================================
+     FPT
+===================================================== -->
+
+<h2 class="network-title fpt-title">
+    🟠 FPT
+</h2>
+
+<div class="button-area fpt">
+
+    <button>
+        💰 Tài Khoản
+    </button>
+
+    <button>
+        📶 DATA
+    </button>
+
+    <button>
+        🌐 FPT Mobile
+    </button>
+
+    <button
+        class="internet"
+        onclick="window.location.href='tel:19006600'">
+        ☎️ Tổng đài INTERNET
+    </button>
+
+</div>
+
+<hr>
+
+<!-- =====================================================
+     ITEL
+===================================================== -->
+
+<h2 class="network-title itel-title">
+    🔹 ITEL
+</h2>
+
+<div class="button-area itel">
+
+    <button class="tk" onclick="itelTK()">
+        💰 *101#
+    </button>
+
+    <button class="info" onclick="itelInfo()">
+        👤 *087*1#
+    </button>
+
+    <button class="sms" onclick="itelSMS()">
+        📩 TRACUU
+    </button>
+
+    <button class="data" onclick="itelData()">
+        📶 DATA
+    </button>
+
+    <button class="ck" onclick="itelCK()">
+        💳 TRA CỨU CK
+    </button>
+
+    <button class="app" onclick="itelApp()">
+        📱 APP
+    </button>
+
+</div>
+
+<hr>
+
+<!-- =====================================================
+     LOCAL
+===================================================== -->
+
+<h2 class="network-title local-title">
+    ⚙️ LOCAL
+</h2>
+
+<div class="button-area local">
+
+    <button onclick="localTK()">
+        💰 *101#
+    </button>
+
+    <button onclick="localSMS()">
+        📩 KT → 789
+    </button>
+
+    <button onclick="localData()">
+        📶 DATA → 789
+    </button>
+
+</div>
+
+<!-- =====================================================
+     CÀI APP
+===================================================== -->
+
+<button id="installBtn">
+    📲 Cài lên màn hình chính
+</button>
+
+<!-- =====================================================
+     PREVIEW
+===================================================== -->
+
+<div id="preview"></div>
+
+
+<script>
+
+/* =====================================================
+   HÀM HIỂN THỊ
+===================================================== */
+
+function hienThi(noiDung){
+
+    document.getElementById("preview").innerHTML =
+        noiDung;
+
+}
+
+/* =====================================================
+   VIETTEL - NẠP THẺ
+===================================================== */
+
+function guiSMS(){
+
+    let maThe =
+        document.getElementById("mathe").value.trim();
+
+    if(maThe === ""){
+
+        alert("⚠️ Vui lòng nhập mã thẻ!");
+
+        document.getElementById("mathe").focus();
+
+        return;
+    }
+
+    if(!/^[a-zA-Z0-9]+$/.test(maThe)){
+
+        alert("⚠️ Mã thẻ chỉ được chứa chữ và số!");
+
+        return;
+    }
+
+    let ussd =
+        "*100*" + maThe + "#";
+
+    let noiDung =
+        "NT " + maThe;
+
+    hienThi(
+        "USSD: <b>" + ussd + "</b><br>" +
+        "SMS: <b>" + noiDung + "</b><br>" +
+        "Gửi đến: <b>100</b>"
+    );
+
+    window.location.href =
+        "sms:100?body=" +
+        encodeURIComponent(noiDung);
+}
+
+/* =====================================================
+   VIETTEL - TÀI KHOẢN
+===================================================== */
+
+function traCuuTK(){
+
+    let noiDung="TK";
+
+    hienThi(
+        "SMS: <b>TK</b><br>" +
+        "Gửi đến: <b>191</b>"
+    );
+
+    window.location.href =
+        "sms:191?body=" +
+        encodeURIComponent(noiDung);
+}
+
+/* =====================================================
+   VIETTEL - *101#
+===================================================== */
+
+function vt101(){
+
+    window.location.href="tel:*101%23";
+
+}
+
+/* =====================================================
+   VIETTEL - DATA
+===================================================== */
+
+function kiemTraData(){
+
+    let noiDung="KTTK";
+
+    hienThi(
+        "SMS: <b>KTTK</b><br>" +
+        "Gửi đến: <b>191</b>"
+    );
+
+    window.location.href =
+        "sms:191?body=" +
+        encodeURIComponent(noiDung);
+}
+
+/* =====================================================
+   VIETTEL - TRA CƯỚC 109
+===================================================== */
+
+function vtData109(){
+
+    window.location.href =
+        "sms:109?body=" +
+        encodeURIComponent("Tra Cuoc");
+
+}
+
+/* =====================================================
+   VIETTEL - GC 195
+===================================================== */
+
+function kiemTraCuoc(){
+
+    let noiDung="GC";
+
+    hienThi(
+        "SMS: <b>GC</b><br>" +
+        "Gửi đến: <b>195</b>"
+    );
+
+    window.location.href =
+        "sms:195?body=" +
+        encodeURIComponent(noiDung);
+}
+
+/* =====================================================
+   VIETTEL - TC 195
+===================================================== */
+
+function vtTC195(){
+
+    window.location.href =
+        "sms:195?body=TC";
+
+}
+
+/* =====================================================
+   VIETTEL - TC 1228
+===================================================== */
+
+function traCuuGTGT(){
+
+    let noiDung="TC";
+
+    hienThi(
+        "SMS: <b>TC</b><br>" +
+        "Gửi đến: <b>1228</b>"
+    );
+
+    window.location.href =
+        "sms:1228?body=" +
+        encodeURIComponent(noiDung);
+}
+
+/* =====================================================
+   VIETTEL - XT 1414
+===================================================== */
+
+function xacThucTB(){
+
+    let noiDung="XT";
+
+    hienThi(
+        "SMS: <b>XT</b><br>" +
+        "Gửi đến: <b>1414</b>"
+    );
+
+    window.location.href =
+        "sms:1414?body=" +
+        encodeURIComponent(noiDung);
+}
+
+/* =====================================================
+   CCCD
+===================================================== */
+
+function moNhapCCCD(){
+
+    document.getElementById("cccdBox").style.display =
+        "block";
+
+    document.getElementById("cccd").value="";
+
+    setTimeout(function(){
+
+        document.getElementById("cccd").focus();
+
+    },100);
+
+}
+
+function dongCCCD(){
+
+    document.getElementById("cccdBox").style.display =
+        "none";
+
+    document.getElementById("cccd").value="";
+
+}
+
+function guiCCCD(){
+
+    let cccd =
+        document.getElementById("cccd").value.trim();
+
+    if(!/^\d{12}$/.test(cccd)){
+
+        alert("⚠️ CCCD phải gồm đúng 12 số!");
+
+        document.getElementById("cccd").focus();
+
+        return;
+    }
+
+    let noiDung =
+        "TTTB " + cccd;
+
+    hienThi(
+        "SMS: <b>" + noiDung + "</b><br>" +
+        "Gửi đến: <b>1414</b>"
+    );
+
+    dongCCCD();
+
+    window.location.href =
+        "sms:1414?body=" +
+        encodeURIComponent(noiDung);
+
+}
+
+/* =====================================================
+   ENTER CCCD
+===================================================== */
+
+document
+.getElementById("cccd")
+.addEventListener(
+    "keydown",
+    function(e){
+
+        if(e.key==="Enter"){
+
+            guiCCCD();
+
+        }
+
+    }
+);
+
+/* =====================================================
+   ENTER MÃ THẺ
+===================================================== */
+
+document
+.getElementById("mathe")
+.addEventListener(
+    "keydown",
+    function(e){
+
+        if(e.key==="Enter"){
+
+            guiSMS();
+
+        }
+
+    }
+);
+
+/* =====================================================
+   VINAPHONE
+===================================================== */
+
+function vina101(){
+
+    window.location.href="tel:*101%23";
+
+}
+
+function vinaTK(){
+
+    window.location.href="sms:123?body=TK";
+
+}
+
+function vinaData(){
+
+    window.location.href="sms:888?body=DATA";
+
+}
+
+function vinaKM(){
+
+    window.location.href="sms:888?body=KM";
+
+}
+
+function vinaGoi(){
+
+    window.location.href="sms:888?body=DATA";
+
+}
+
+function vinaChinhChu(){
+
+    moNhapCCCD();
+
+}
+
+function vinaNapThe(){
+
+    let maThe =
+        document.getElementById("mathe").value.trim();
+
+    if(!maThe){
+
+        alert("⚠️ Vui lòng nhập mã thẻ!");
+
+        document.getElementById("mathe").focus();
+
+        return;
+    }
+
+    window.location.href =
+        "tel:*100*" + maThe + "#";
+
+}
+
+/* =====================================================
+   MOBIFONE
+===================================================== */
+
+function mobi101(){
+
+    window.location.href="tel:*101%23";
+
+}
+
+function mobi090(){
+
+    window.location.href="tel:*090%23";
+
+}
+
+function mobiTK(){
+
+    window.location.href="sms:994?body=KT";
+
+}
+
+function mobiData(){
+
+    window.location.href=
+        "sms:999?body=KT DATA";
+
+}
+
+function mobiDV(){
+
+    window.location.href=
+        "sms:994?body=KT ALL";
+
+}
+
+function mobiKM(){
+
+    window.location.href=
+        "sms:999?body=KM";
+
+}
+
+function mobiChinhChu(){
+
+    moNhapCCCD();
+
+}
+
+function mobiNapThe(){
+
+    let maThe =
+        document.getElementById("mathe").value.trim();
+
+    if(!maThe){
+
+        alert("⚠️ Vui lòng nhập mã thẻ!");
+
+        document.getElementById("mathe").focus();
+
+        return;
+    }
+
+    window.location.href =
+        "tel:*100*" + maThe + "#";
+
+}
+
+/* =====================================================
+   VIETNAMOBILE
+===================================================== */
+
+function vnmb101(){
+
+    window.location.href="tel:*101%23";
+
+}
+
+function vnmb102(){
+
+    window.location.href="tel:*102%23";
+
+}
+
+function vnmb092(){
+
+    window.location.href="tel:*092%23";
+
+}
+
+/* =====================================================
+   WINTEL
+===================================================== */
+
+function wintelTK(){
+
+    window.location.href="tel:*101%23";
+
+}
+
+function wintel102(){
+
+    window.location.href="tel:*102%23";
+
+}
+
+function wintelApp(){
+
+    window.open(
+        "https://wintel.vn",
+        "_blank"
+    );
+
+}
+
+/* =====================================================
+   VNSKY
+===================================================== */
+
+function vnskyTK(){
+
+    window.location.href="tel:*101%23";
+
+}
+
+function vnskySMS(){
+
+    window.location.href=
+        "sms:888?body=KT";
+
+}
+
+function vnskyData(){
+
+    window.location.href=
+        "sms:888?body=TRACUU";
+
+}
+
+function vnsky5G89(){
+
+    window.location.href=
+        "sms:9199?body=5G89";
+
+}
+
+function vnskyWeb(){
+
+    window.open(
+        "https://vnsky.vn",
+        "_blank"
+    );
+
+}
+
+/* =====================================================
+   ITEL
+===================================================== */
+
+function itelTK(){
+
+    window.location.href="tel:*101%23";
+
+}
+
+function itelInfo(){
+
+    window.location.href="tel:*087*1%23";
+
+}
+
+function itelSMS(){
+
+    window.location.href=
+        "sms:1414?body=TRACUU";
+
+}
+
+function itelData(){
+
+    window.location.href=
+        "sms:196?body=TRACUU DATA";
+
+}
+
+function itelCK(){
+
+    window.location.href=
+        "sms:8968?body=TRA CUU CK";
+
+}
+
+function itelApp(){
+
+    window.open(
+        "https://itel.vn",
+        "_blank"
+    );
+
+}
+
+/* =====================================================
+   LOCAL
+===================================================== */
+
+function localTK(){
+
+    window.location.href="tel:*101%23";
+
+}
+
+function localSMS(){
+
+    window.location.href=
+        "sms:789?body=KT";
+
+}
+
+function localData(){
+
+    window.location.href=
+        "sms:789?body=DATA";
+
+}
+
+/* =====================================================
+   PWA INSTALL
+===================================================== */
+
+let deferredPrompt=null;
+
+window.addEventListener(
+    "beforeinstallprompt",
+    function(e){
+
+        e.preventDefault();
+
+        deferredPrompt=e;
+
+        const btn =
+            document.getElementById("installBtn");
+
+        btn.style.display="inline-block";
+
+        btn.onclick=async function(){
+
+            if(!deferredPrompt){
+
+                return;
+
+            }
+
+            deferredPrompt.prompt();
+
+            const choice =
+                await deferredPrompt.userChoice;
+
+            console.log(
+                "Kết quả cài:",
+                choice.outcome
+            );
+
+            deferredPrompt=null;
+
+            btn.style.display="none";
+
+        };
+
+    }
+);
+
+/* =====================================================
+   APP INSTALLED
+===================================================== */
+
+window.addEventListener(
+    "appinstalled",
+    function(){
+
+        const btn =
+            document.getElementById("installBtn");
+
+        btn.style.display="none";
+
+        deferredPrompt=null;
+
+    }
+);
+
+</script>
+
+</body>
+</html>
